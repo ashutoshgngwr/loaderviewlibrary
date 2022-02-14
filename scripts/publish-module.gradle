@@ -75,3 +75,9 @@ ext["signing.secretKeyRingFile"] = rootProject.ext["signing.secretKeyRingFile"]
 signing {
     sign publishing.publications
 }
+
+gradle.taskGraph.whenReady { taskGraph ->
+    tasks.withType(Sign) {
+        onlyIf { !taskGraph.hasTask(":loaderviewlibrary:publishToMavenLocal") }
+    }
+}
